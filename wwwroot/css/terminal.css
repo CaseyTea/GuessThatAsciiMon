@@ -1,0 +1,143 @@
+/* Custom Terminal CSS for Pokemon Game */
+:root {
+  --primary-color: #00ff00;
+  --background-color: #0c0c0c;
+  --secondary-color: #ffb000;
+  --text-color: #00ff00;
+  --border-color: #333;
+}
+
+.fullscreen-layout {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.terminal-window {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+  overflow: hidden;
+  width: 98vw;
+  height: 95vh;
+  margin: 0;
+}
+
+.terminal-header {
+  background-color: #1a1a1a;
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.terminal-header::before {
+  content: "● ● ●";
+  color: #ff5f56;
+  margin-right: 15px;
+}
+
+.terminal-body {
+  padding: 30px;
+  height: calc(95vh - 60px); /* Full height minus header */
+  line-height: 1.4;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ascii-art {
+  color: var(--primary-color);
+  font-size: 12px;
+  line-height: 1;
+  margin: 20px 0;
+  white-space: pre;
+  text-align: center;
+}
+
+.terminal-prompt {
+  color: var(--secondary-color);
+  margin: 10px 0;
+}
+
+.terminal-prompt::before {
+  content: "$ ";
+  color: var(--primary-color);
+}
+
+.terminal-input {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+  width: 100%;
+  padding: 5px 0;
+}
+
+.terminal-button {
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 8px 16px;
+  margin: 5px;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s;
+}
+
+.terminal-button:hover {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.cursor {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Pokemon specific styles */
+.pokemon-info {
+  color: var(--secondary-color);
+  margin: 15px 0;
+}
+
+.pokemon-type {
+  display: inline-block;
+  padding: 2px 8px;
+  margin: 2px;
+  border: 1px solid var(--primary-color);
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.correct-answer {
+  color: #00ff00;
+  animation: glow 0.5s ease-in-out;
+}
+
+.wrong-answer {
+  color: #ff4444;
+}
+
+@keyframes glow {
+  0% { text-shadow: none; }
+  50% { text-shadow: 0 0 10px currentColor; }
+  100% { text-shadow: none; }
+}

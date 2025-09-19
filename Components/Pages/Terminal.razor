@@ -1,0 +1,103 @@
+@page "/terminal"
+@rendermode InteractiveServer
+
+<PageTitle>Terminal Test - GuessThatAsciiMon</PageTitle>
+
+<div class="terminal-window">
+    <div class="terminal-header">GuessThatAsciiMon Terminal v1.0</div>
+    <div class="terminal-body">
+        <div class="terminal-prompt">Welcome to the terminal test page!</div>
+
+        <pre class="ascii-art">@asciiArt</pre>
+
+        <div class="pokemon-info">
+            <div>Sample Pokemon Info:</div>
+            <div>Weight: 60</div>
+            <div>Type(s):</div>
+            <span class="pokemon-type">Electric</span>
+            <span class="pokemon-type">Normal</span>
+        </div>
+
+        <div class="terminal-prompt">What's that Pokemon?</div>
+        <input class="terminal-input" @bind="userGuess" @onkeypress="HandleKeyPress" placeholder="Enter your guess..." />
+
+        <div style="margin: 15px 0;">
+            <button class="terminal-button" @onclick="SubmitGuess">Submit Guess</button>
+            <button class="terminal-button" @onclick="NewPokemon">New Pokemon</button>
+            <button class="terminal-button" @onclick="ClearTerminal">Clear</button>
+        </div>
+
+        @if (!string.IsNullOrEmpty(result))
+        {
+            <div class="@(isCorrect ? "correct-answer" : "wrong-answer")">
+                @result
+            </div>
+        }
+
+        <div class="terminal-prompt">
+            Terminal ready<span class="cursor">_</span>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string userGuess = "";
+    private string result = "";
+    private bool isCorrect = false;
+    private string asciiArt = @"
+    ⢀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⣠⣤⣶⣶
+    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠆⠀⠀⣤⣿⣿⣿⣿⣿
+    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⢀⣤⣿⣿⣿⣿⣿⣿
+    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+    ";
+
+    private async Task HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await SubmitGuess();
+        }
+    }
+
+    private async Task SubmitGuess()
+    {
+        if (string.IsNullOrWhiteSpace(userGuess))
+            return;
+
+        // Simulate checking guess (replace with actual Pokemon logic later)
+        if (userGuess.ToLower() == "pikachu")
+        {
+            result = "Correct! It's Pikachu!";
+            isCorrect = true;
+        }
+        else
+        {
+            result = $"Incorrect! It's actually Pikachu. You guessed: {userGuess}";
+            isCorrect = false;
+        }
+
+        userGuess = "";
+        StateHasChanged();
+    }
+
+    private async Task NewPokemon()
+    {
+        result = "Loading new Pokemon...";
+        userGuess = "";
+
+        // Simulate loading delay
+        await Task.Delay(1000);
+
+        result = "New Pokemon loaded! (This is still Pikachu for demo)";
+        StateHasChanged();
+    }
+
+    private void ClearTerminal()
+    {
+        result = "";
+        userGuess = "";
+        StateHasChanged();
+    }
+}
