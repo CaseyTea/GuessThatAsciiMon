@@ -8,3 +8,4 @@ obj/
 .DS_Store
 wwwroot/lib/
 node_modules/
+CLAUDE.md
