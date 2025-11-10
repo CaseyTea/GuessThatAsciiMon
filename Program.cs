@@ -25,6 +25,15 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Allow iframe embedding from your personal website
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Remove("X-Frame-Options");
+    context.Response.Headers.Append("Content-Security-Policy",
+        "frame-ancestors 'self' https://caseytea.github.io http://localhost:*");
+    await next();
+});
+
 app.UseHttpsRedirection();
 
 
