@@ -28,9 +28,20 @@ if (!app.Environment.IsDevelopment())
 // Allow iframe embedding from your personal website
 app.Use(async (context, next) =>
 {
-    context.Response.Headers.Remove("X-Frame-Options");
-    context.Response.Headers.Append("Content-Security-Policy",
-        "frame-ancestors 'self' https://caseytea.github.io http://localhost:*");
+    // Use OnStarting to ensure our headers are set last (after Blazor's defaults)
+    context.Response.OnStarting(() =>
+    {
+        // Remove any CSP headers that were added
+        context.Response.Headers.Remove("Content-Security-Policy");
+        context.Response.Headers.Remove("X-Frame-Options");
+
+        // Add our custom CSP header
+        context.Response.Headers.Append("Content-Security-Policy",
+            "frame-ancestors 'self' https://caseytea.github.io http://localhost:*");
+
+        return Task.CompletedTask;
+    });
+
     await next();
 });
 
